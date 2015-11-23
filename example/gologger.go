@@ -2,7 +2,7 @@ package main
 
 import "unsafe"
 import "fmt"
-import "github.com/bioothod/elliptics-go/elliptics"
+import "github.com/DemonVex/elliptics-go/elliptics"
 import "log"
 import "os"
 import "C"

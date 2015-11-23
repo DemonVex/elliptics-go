@@ -245,6 +245,13 @@ func (backend *StatBackend) PIDPain() float64 {
 func (backend *StatBackend) PIDUpdate(e float64) {
 	p := &backend.PID
 	p.Lock()
+	defer func () {
+		p.Unlock()
+		if r := recover(); r != nil {
+			fmt.Printf("%v", r)
+			panic(r)
+		}
+	}()
 
 	delta_T := time.Since(p.ErrorTime).Seconds()
 	integral_new := e*delta_T + p.IntegralError
@@ -264,8 +271,6 @@ func (backend *StatBackend) PIDUpdate(e float64) {
 	p.Error = e
 	p.ErrorTime = time.Now()
 	p.Pain = u
-
-	p.Unlock()
 }
 
 func (sb *StatBackend) Len() int {
