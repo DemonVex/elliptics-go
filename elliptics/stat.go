@@ -245,15 +245,14 @@ func (backend *StatBackend) PIDPain() float64 {
 func (backend *StatBackend) PIDUpdate(e float64) {
 	p := &backend.PID
 	p.Lock()
-	defer func () {
-		p.Unlock()
-		if r := recover(); r != nil {
-			fmt.Printf("%v", r)
-			panic(r)
-		}
-	}()
+	defer p.Unlock()
 
 	delta_T := time.Since(p.ErrorTime).Seconds()
+
+	if delta_T == 0 {
+		return
+	}
+
 	integral_new := e*delta_T + p.IntegralError
 	diff := (e - p.Error) / delta_T
 
