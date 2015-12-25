@@ -248,7 +248,6 @@ func (backend *StatBackend) PIDUpdate(e float64) {
 	defer p.Unlock()
 
 	delta_T := time.Since(p.ErrorTime).Seconds()
-
 	if delta_T == 0 {
 		return
 	}
